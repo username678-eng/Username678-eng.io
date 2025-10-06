@@ -651,3 +651,575 @@ Copy-paste into your HTML. Customize the DATA block below.
     <p class="sig-tiny" style="color:var(--muted);padding:8px;">Widgets need JavaScript. Your page still loads without them.</p>
   </noscript>
 </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>No Fluff. No Filler. Just Signal.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Signal Studio Pro — editorial hub with pro search, creator studio, and video gadgets. Minimal surface, maximal clarity.">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" href="favicon.png">
+  <style>
+    :root {
+      --bg:#0b0b0c; --panel:#101113; --border:#1c1d20; --text:#fff; --muted:#b8b8b8; --accent:#c8f91a;
+      --shadow:0 10px 30px rgba(0,0,0,0.4);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    img{max-width:100%;height:auto;border-radius:12px}
+    /* Accessibility focus */
+    :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+    /* Header */
+    header{position:sticky;top:0;z-index:20;background:#0f1012;border-bottom:1px solid var(--border);backdrop-filter:saturate(130%) blur(8px)}
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    .logo{font-weight:800;letter-spacing:.4px}
+    .nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
+    .nav a{font-weight:600}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{appearance:none;border:1px solid var(--border);background:#141416;color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn:hover{background:#17181b}
+    .btn-accent{background:var(--accent);color:#0b0b0c;border-color:#a7d91a}
+    .tag{display:inline-block;font-size:11px;color:#0b0b0c;background:var(--accent);padding:2px 6px;border-radius:999px;margin-right:6px}
+    /* Hero */
+    .hero{max-width:1100px;margin:0 auto;padding:40px 16px;text-align:center}
+    .hero h1{margin:0 0 8px;font-size:2.4rem;font-weight:900}
+    .hero p{color:var(--muted);margin:0}
+    /* Layout */
+    main{max-width:1100px;margin:0 auto;padding:16px}
+    .section-title{font-size:1.5rem;margin:24px 0 12px;font-weight:800}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+    .muted{color:var(--muted);font-size:13px}
+    .input{width:100%;background:#0e0f12;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px}
+    .row{display:flex;gap:8px;align-items:center}
+    .list{list-style:none;margin:10px 0 0;padding:0}
+    .list li{padding:10px;border:1px solid var(--border);border-radius:12px;background:#0f1012;margin-bottom:8px}
+    /* Panels */
+    .iframe-box{position:relative;padding-top:56.25%;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0f1012}
+    .iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .note{background:#0f1012;border:1px dashed var(--border);border-radius:10px;padding:10px;color:var(--muted);font-size:13px}
+    /* Editor Studio layout */
+    .studio-grid{display:grid;gap:16px}
+    @media(min-width:900px){.studio-grid{grid-template-columns:1fr 1fr}}
+    textarea{width:100%;min-height:220px;background:#0e0f12;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace}
+    .preview{background:#0f1012;border:1px solid var(--border);border-radius:10px;padding:16px;min-height:220px}
+    /* Reduced motion */
+    @media (prefers-reduced-motion: no-preference){
+      .card{transition:transform .18s ease, box-shadow .18s ease}
+      .card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,0.55)}
+    }
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <div class="nav" aria-label="Primary">
+      <div class="logo">Signal Studio Pro</div>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#studio">Editor studio</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <div class="controls">
+        <button class="btn" id="themeToggle" aria-label="Toggle theme">Theme</button>
+        <button class="btn" id="copyLink" aria-label="Copy site link">Copy link</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>No Fluff. No Filler. Just Signal.</h1>
+    <p>Minimal surface • Maximal clarity • Editorial hub with pro tools</p>
+  </section>
+
+  <main>
+    <!-- Features -->
+    <section id="features" aria-labelledby="title-features">
+      <h2 id="title-features" class="section-title">Mini features</h2>
+      <div class="grid">
+        <!-- Pro Search -->
+        <article class="card" aria-labelledby="search-title">
+          <h3 id="search-title">Pro search</h3>
+          <p class="muted">Instant, scoped, with tag filters and keyboard navigation.</p>
+          <div class="row" role="search">
+            <input id="q" class="input" type="text" placeholder="Search titles, descriptions, #tags… (use quotes for exact)" aria-label="Search">
+            <button class="btn" id="qBtn">Search</button>
+          </div>
+          <div class="row" style="margin-top:8px;flex-wrap:wrap">
+            <button class="btn" data-tag="core">#core</button>
+            <button class="btn" data-tag="tools">#tools</button>
+            <button class="btn" data-tag="editorial">#editorial</button>
+            <button class="btn" data-tag="install">#install</button>
+            <button class="btn" id="clearTag">Clear tag</button>
+          </div>
+          <ul id="results" class="list" aria-live="polite" aria-label="Search results"></ul>
+          <p id="stats" class="muted">Ready. Enter to open top result • ↑/↓ navigate</p>
+        </article>
+
+        <!-- Trending -->
+        <article class="card" aria-labelledby="trend-title">
+          <h3 id="trend-title">Trending snippets</h3>
+          <p class="muted">Curated highlights that rotate. No tracking, no cookies.</p>
+          <div id="trend-box" class="note" style="min-height:76px">Signal warms up…</div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" id="trend-prev" aria-label="Previous">Prev</button>
+            <button class="btn" id="trend-next" aria-label="Next">Next</button>
+            <button class="btn" id="trend-pause" aria-label="Pause autoplay">Pause</button>
+          </div>
+        </article>
+
+        <!-- Signal of the Day -->
+        <article class="card" aria-labelledby="sotd-title">
+          <h3 id="sotd-title">Signal of the day</h3>
+          <p class="muted">Privacy‑enhanced YouTube embed. Swap the ID to match your theme.</p>
+          <div class="iframe-box">
+            <iframe
+              id="yt"
+              class="iframe"
+              title="Signal of the Day"
+              src=""
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="note" id="yt-note" style="margin-top:10px">Tip: set a daily flagship clip to anchor the narrative.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Editor Studio -->
+    <section id="studio" aria-labelledby="title-studio">
+      <h2 id="title-studio" class="section-title">Editor studio</h2>
+      <div class="studio-grid">
+        <article class="card">
+          <h3>Compose</h3>
+          <p class="muted">Write in Markdown or plain text. Live preview updates as you type.</p>
+          <textarea id="md" placeholder="# Headline
+A sharp intro that trims the noise and amplifies the signal.
+
+**Bold points** and *emphasis*.
+- Bullet lists
+- Clear structure
+
+> Callouts for key insights"></textarea>
+          <div class="row" style="margin-top:8px">
+            <button class="btn" id="copyMd">Copy markdown</button>
+            <button class="btn" id="exportHtml">Export HTML</button>
+            <button class="btn" id="saveDraft">Save draft</button>
+            <button class="btn" id="loadDraft">Load draft</button>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Preview & style</h3>
+          <p class="muted">Choose presets and accents. Export keeps your styles inline.</p>
+          <div class="row">
+            <label class="muted" for="fontSel">Font</label>
+            <select id="fontSel" class="input" style="max-width:200px">
+              <option value="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">System</option>
+              <option value="Georgia,serif">Serif (Georgia)</option>
+              <option value="Menlo,Consolas,monospace">Monospace</option>
+            </select>
+            <label class="muted" for="accentSel">Accent</label>
+            <input id="accentSel" class="input" type="color" value="#c8f91a" style="max-width:120px">
+            <label class="muted" for="sizeSel">Size</label>
+            <select id="sizeSel" class="input" style="max-width:140px">
+              <option value="1">Normal</option>
+              <option value="1.05">Comfort</option>
+              <option value="1.12">Large</option>
+            </select>
+          </div>
+          <div id="preview" class="preview" aria-live="polite">Live preview will appear here.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos" aria-labelledby="title-videos">
+      <h2 id="title-videos" class="section-title">Editorial video gadgets</h2>
+      <div class="grid">
+        <article class="card" aria-labelledby="playlist-title">
+          <h3 id="playlist-title">Playlist</h3>
+          <p class="muted">Curate clips with tags, timestamps, and notes.</p>
+          <ul id="vlist" class="list"></ul>
+        </article>
+        <article class="card" aria-labelledby="timestamps-title">
+          <h3 id="timestamps-title">Timestamps</h3>
+          <ul id="vts" class="list"></ul>
+        </article>
+        <article class="card" aria-labelledby="clips-title">
+          <h3 id="clips-title">Clip generator</h3>
+          <p class="muted">Create shareable nocookie clip URLs with start/end.</p>
+          <div class="row">
+            <input id="clipTitle" class="input" type="text" placeholder="Clip title (optional)">
+          </div>
+          <div class="row" style="margin-top:8px">
+            <input id="clipStart" class="input" type="text" placeholder="Start (mm:ss)">
+            <input id="clipEnd" class="input" type="text" placeholder="End (mm:ss)">
+            <button class="btn" id="makeClip">Make clip</button>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <input id="clipUrl" class="input" type="text" readonly placeholder="Your clip URL appears here">
+            <button class="btn" id="copyClip">Copy</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" aria-labelledby="title-about">
+      <h2 id="title-about" class="section-title">About</h2>
+      <p>This editorial hub trims the noise and amplifies the signal. It’s modular, privacy‑conscious, inspection‑ready, and designed for creators.</p>
+    </section>
+  </main>
+
+  <footer role="contentinfo" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
+    © <span id="year"></span> username678‑eng • No Fluff. No Filler. Just Signal.
+  </footer>
+
+  <script>
+    // ===============================
+    // Data — customize to your site
+    // ===============================
+    const DATA = {
+      featuredVideo: { id: "dQw4w9WgXcQ", title: "Signal of the Day — Editorial highlight" },
+      pages: [
+        { url:"#studio",   title:"Editor studio",   description:"Markdown + style presets + export.", tags:["core","tools","editorial"] },
+        { url:"#features", title:"Mini features",   description:"Pro search, trending, SOTD.", tags:["core","tools"] },
+        { url:"#videos",   title:"Video gadgets",   description:"Playlist, timestamps, shareable clips.", tags:["editorial","tools","clips"] },
+        { url:"#about",    title:"About the node",  description:"Public-facing shell. Minimal surface, maximal clarity.", tags:["about","manifesto"] },
+        { url:"#install",  title:"Install Signal",  description:"Opt-in overlay, PWA wrapper.", tags:["install","overlay"] }
+      ],
+      videos: [
+        {
+          id:"dQw4w9WgXcQ",
+          title:"Trim the noise. Amplify the signal.",
+          url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          tags:["signal","principles"],
+          timestamps:[{t:"00:08",label:"Hook"},{t:"01:20",label:"Principle"},{t:"02:45",label:"Application"}],
+          notes:"Reinforce the brand mantra and invite viewers to the site loop."
+        },
+        {
+          id:"a1b2C3d4E5F",
+          title:"Mini features demo — search + gadgets",
+          url:"https://www.youtube.com/watch?v=a1b2C3d4E5F",
+          tags:["demo","search","gadgets"],
+          timestamps:[{t:"00:12",label:"Quick find"},{t:"00:55",label:"Playlist overview"},{t:"01:40",label:"Clip workflow"}],
+          notes:"Show the clip generator with a real scenario. End with a call to action."
+        }
+      ]
+    };
+
+    // ===============================
+    // Utilities
+    // ===============================
+    const tokenize = s => String(s||"").toLowerCase().replace(/[^a-z0-9#\s]+/g," ").split(/\s+/).filter(Boolean);
+    const mmssToSeconds = mmss => { const m = String(mmss).match(/^(\d{1,2}):([0-5]\d)$/); return m ? (+m[1]*60 + +m[2]) : null; };
+    const ytNoCookie = id => `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+    const ls = {
+      get:(k,def=null)=>{ try{ const v = localStorage.getItem(k); return v? JSON.parse(v): def; }catch{return def;}},
+      set:(k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+    };
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Theme toggle (persist)
+    (function(){
+      const btn = document.getElementById("themeToggle");
+      const saved = ls.get("signal:theme","dark");
+      if (saved === "light") {
+        document.documentElement.style.setProperty("--bg","#f7f7f8");
+        document.documentElement.style.setProperty("--text","#0b0b0c");
+        document.documentElement.style.setProperty("--panel","#ffffff");
+        document.documentElement.style.setProperty("--border","#e7e7ea");
+      }
+      btn.addEventListener("click", () => {
+        const currentBg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
+        const toLight = currentBg === "#0b0b0c";
+        if (toLight) {
+          document.documentElement.style.setProperty("--bg","#f7f7f8");
+          document.documentElement.style.setProperty("--text","#0b0b0c");
+          document.documentElement.style.setProperty("--panel","#ffffff");
+          document.documentElement.style.setProperty("--border","#e7e7ea");
+          ls.set("signal:theme","light");
+        } else {
+          document.documentElement.style.setProperty("--bg","#0b0b0c");
+          document.documentElement.style.setProperty("--text","#fff");
+          document.documentElement.style.setProperty("--panel","#101113");
+          document.documentElement.style.setProperty("--border","#1c1d20");
+          ls.set("signal:theme","dark");
+        }
+      });
+    })();
+
+    // Copy site link
+    (function(){
+      const btn = document.getElementById("copyLink");
+      btn.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(location.href); btn.textContent = "Copied!"; setTimeout(()=>btn.textContent="Copy link",1200); }
+        catch { btn.textContent = "Copy failed"; setTimeout(()=>btn.textContent="Copy link",1200); }
+      });
+    })();
+
+    // Pro Search
+    (function(){
+      const qEl = document.getElementById("q");
+      const btn = document.getElementById("qBtn");
+      const list = document.getElementById("results");
+      const stats = document.getElementById("stats");
+      const tagBtns = Array.from(document.querySelectorAll('[data-tag]'));
+      const clearTag = document.getElementById("clearTag");
+      let tagFocus = null;
+      let activeIndex = 0;
+
+      function score(doc, terms){
+        const title = (doc.title||"").toLowerCase(), desc = (doc.description||"").toLowerCase(), tags = (doc.tags||[]).map(t=>String(t).toLowerCase());
+        let s = 0, hits=0;
+        for (const t of terms){
+          const h = (title.includes(t)?4:0) + (desc.includes(t)?2:0) + (tags.includes(t)?2.5:0);
+          const fuzzy = (title+desc+tags.join(" ")).includes(t) ? 0.8 : 0;
+          const termScore = Math.max(h, fuzzy);
+          if (termScore>0) hits++;
+          s += termScore;
+        }
+        if (tagFocus && tags.includes(tagFocus)) s *= 1.4;
+        if (hits>1) s += hits*0.2;
+        return s / Math.log10(desc.length + title.length + 60);
+      }
+
+      function search(q){
+        const exact = q.match(/"([^"]+)"/)?.[1]?.toLowerCase();
+        const terms = exact ? tokenize(exact) : tokenize(q).filter(t=>!t.startsWith("#"));
+        return DATA.pages
+          .map(doc => {
+            let s = score(doc, terms);
+            if (exact && (doc.title+" "+doc.description).toLowerCase().includes(exact)) s += 2.5;
+            return {doc, score:s};
+          })
+          .filter(r => r.score > 0.1)
+          .sort((a,b)=> b.score - a.score)
+          .slice(0,8);
+      }
+
+      function render(items){
+        list.innerHTML = "";
+        items.forEach((r,i)=>{
+          const li = document.createElement("li");
+          li.className = "result" + (i===activeIndex ? " active" : "");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <div>
+                <a href="${r.doc.url}">${r.doc.title}</a>
+                <div class="muted" style="margin-top:4px">${r.doc.description}</div>
+              </div>
+              <div>${(r.doc.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join("")}</div>
+            </div>
+          `;
+          li.addEventListener("click",()=>window.location.hash = r.doc.url);
+          list.appendChild(li);
+        });
+        stats.textContent = items.length ? `Found ${items.length} result(s).` : "No results — try different terms.";
+      }
+
+      function run(){ activeIndex = 0; render(search(qEl.value)); }
+      btn.addEventListener("click", run);
+      qEl.addEventListener("input", run);
+      document.addEventListener("keydown", (e)=>{
+        const items = search(qEl.value);
+        if (!items.length) return;
+        if (e.key === "ArrowDown"){ e.preventDefault(); activeIndex = Math.min(activeIndex+1, items.length-1); render(items); }
+        else if (e.key === "ArrowUp"){ e.preventDefault(); activeIndex = Math.max(activeIndex-1, 0); render(items); }
+        else if (e.key === "Enter"){ const target = items[activeIndex]?.doc?.url; if (target) window.location.hash = target; }
+      });
+
+      tagBtns.forEach(b=> b.addEventListener("click",()=>{ tagFocus = b.getAttribute("data-tag"); run(); }));
+      clearTag.addEventListener("click",()=>{ tagFocus=null; run(); });
+
+      run();
+    })();
+
+    // Trending
+    (function(){
+      const items = [
+        "No Fluff. No Filler. Just Signal.",
+        "Minimal surface, maximal clarity.",
+        "Trim the noise. Amplify the signal.",
+        "Opt‑in overlay. Ethical by design.",
+        "Fast by default. Inspection‑ready."
+      ];
+      const text = document.getElementById("trend-box");
+      const prev = document.getElementById("trend-prev");
+      const next = document.getElementById("trend-next");
+      const pause = document.getElementById("trend-pause");
+      let i=0, timer=null, playing=true;
+      const show = n => { i = (n + items.length) % items.length; text.textContent = items[i]; };
+      const tick = () => show(i+1);
+      const start = () => { if (!timer) timer = setInterval(tick, 4000); };
+      const stop  = () => { if (timer) { clearInterval(timer); timer=null; } };
+      prev.onclick = () => show(i-1);
+      next.onclick = () => show(i+1);
+      pause.onclick = () => { playing=!playing; if (playing){ start(); pause.textContent="Pause"; } else { stop(); pause.textContent="Play"; } };
+      show(0); start(); setTimeout(stop,120000);
+    })();
+
+    // SOTD
+    (function(){
+      const yt = document.getElementById("yt");
+      const note = document.getElementById("yt-note");
+      yt.src = ytNoCookie(DATA.featuredVideo.id);
+      note.textContent = DATA.featuredVideo.title;
+    })();
+
+    // Videos
+    (function(){
+      const list = document.getElementById("vlist");
+      const ts = document.getElementById("vts");
+      const yt = document.getElementById("yt");
+      let active = DATA.videos[0]?.id || null;
+
+      function renderPlaylist(){
+        list.innerHTML = "";
+        DATA.videos.forEach(v=>{
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;">
+              <div>
+                <a href="${v.url}" target="_blank" rel="noopener">${v.title}</a>
+                <div class="muted" style="margin-top:4px;">${(v.tags||[]).map(t=>`<span class="tag">#${t}</span>`).join("")}</div>
+                <div class="muted" style="margin-top:4px;">${v.notes||""}</div>
+              </div>
+              <button class="btn" data-id="${v.id}">${active===v.id?"Playing":"Play"}</button>
+            </div>
+          `;
+          li.querySelector("button").addEventListener("click",()=> setActive(v.id));
+          list.appendChild(li);
+        });
+      }
+
+      function renderTimestamps(id){
+        ts.innerHTML = "";
+        const v = DATA.videos.find(x=>x.id===id);
+        if (!v || !v.timestamps?.length){ ts.innerHTML = `<li class="muted">No timestamps yet.</li>`; return; }
+        v.timestamps.forEach(ti=>{
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <div class="row">
+              <button class="btn" data-ts="${ti.t}">${ti.t}</button>
+              <span>${ti.label}</span>
+            </div>
+          `;
+          li.querySelector("button").addEventListener("click",()=>{
+            const s = mmssToSeconds(ti.t);
+            if (s!=null) yt.src = ytNoCookie(id) + "&start=" + s;
+          });
+          ts.appendChild(li);
+        });
+      }
+
+      function setActive(id){
+        active = id;
+        yt.src = ytNoCookie(id);
+        renderPlaylist();
+        renderTimestamps(id);
+      }
+
+      renderPlaylist();
+      setActive(active);
+    })();
+
+    // Editor Studio: Markdown, style presets, export, drafts
+    (function(){
+      const mdEl = document.getElementById("md");
+      const copyMd = document.getElementById("copyMd");
+      const exportHtml = document.getElementById("exportHtml");
+      const saveDraft = document.getElementById("saveDraft");
+      const loadDraft = document.getElementById("loadDraft");
+      const prev = document.getElementById("preview");
+      const fontSel = document.getElementById("fontSel");
+      const accentSel = document.getElementById("accentSel");
+      const sizeSel = document.getElementById("sizeSel");
+
+      function mdToHtml(text){
+        // Minimal markdown transform: headings, bold, italics, code, lists, quotes, links
+        let h = text
+          .replace(/^######\s?(.*)$/gm, "<h6>$1</h6>")
+          .replace(/^#####\s?(.*)$/gm, "<h5>$1</h5>")
+          .replace(/^####\s?(.*)$/gm, "<h4>$1</h4>")
+          .replace(/^###\s?(.*)$/gm, "<h3>$1</h3>")
+          .replace(/^##\s?(.*)$/gm, "<h2>$1</h2>")
+          .replace(/^#\s?(.*)$/gm, "<h1>$1</h1>")
+          .replace(/```([^`]+)```/gs, "<pre><code>$1</code></pre>")
+          .replace(/`([^`]+)`/g, "<code>$1</code>")
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*(.*?)\*/g, "<em>$1</em>")
+          .replace(/^\s*-\s(.*)$/gm, "<li>$1</li>")
+          .replace(/(<li>.*<\/li>)/gs, "<ul>$1</ul>")
+          .replace(/^>\s(.*)$/gm, "<blockquote>$1</blockquote>")
+          .replace(/\[(.*?)\]`\((.*?)\)`/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+          .replace(/\n{2,}/g, "<br><br>")
+          .replace(/\n/g, "<br>");
+        return h;
+      }
+
+      function applyStyles(){
+        prev.style.setProperty("font-family", fontSel.value);
+        prev.style.setProperty("--accent", accentSel.value);
+        prev.style.setProperty("line-height", sizeSel.value);
+        prev.querySelectorAll("a").forEach(a=> a.style.setProperty("color", accentSel.value));
+      }
+
+      function render(){
+        const html = mdToHtml(mdEl.value || "");
+        prev.innerHTML = html || "<em class='muted'>Live preview will appear here.</em>";
+        applyStyles();
+      }
+
+      mdEl.addEventListener("input", render);
+      fontSel.addEventListener("change", render);
+      accentSel.addEventListener("input", render);
+      sizeSel.addEventListener("change", render);
+
+      copyMd.addEventListener("click", async ()=>{
+        try{ await navigator.clipboard.writeText(mdEl.value); copyMd.textContent="Copied!"; setTimeout(()=>copyMd.textContent="Copy markdown",1200); }
+        catch{ copyMd.textContent="Copy failed"; setTimeout(()=>copyMd.textContent="Copy markdown",1200); }
+      });
+
+      exportHtml.addEventListener("click", ()=>{
+        const blob = new Blob([`<!DOCTYPE html><meta charset="UTF-8"><style>
+          body{font-family:${fontSel.value};line-height:${sizeSel.value};color:#222}
+          a{color:${accentSel.value};text-decoration:none}
+          a:hover{text-decoration:underline}
+          code{background:#f2f2f2;padding:2px 4px;border-radius:4px}
+          pre{background:#f2f2f2;padding:10px;border-radius:6px;overflow:auto}
+          blockquote{border-left:3px solid ${accentSel.value};padding-left:10px;color:#555}
+        </style><body>${prev.innerHTML}</body>`], {type:"text/html"});
+        const url = URL.createObjectURL(blob); const a = document.createElement("a");
+        a.href=url; a.download="signal-export.html"; a.click(); URL.revokeObjectURL(url);
+      });
+
+      saveDraft.addEventListener("click", ()=>{ ls.set("signal:draft",{md: mdEl.value, font: fontSel.value, accent: accentSel.value, size: sizeSel.value}); });
+      loadDraft.addEventListener("click", ()=>{
+        const d = ls.get("signal:draft");
+        if (!d) return;
+        mdEl.value = d.md || "";
+        fontSel.value = d.font || fontSel.value;
+        accentSel.value = d.accent || accentSel.value;
+        sizeSel.value = d.size || sizeSel.value;
+        render();
+      });
+
+      render();
+    })();
+  </script>
+
+  <noscript>
+    <p class="muted" style="padding:12px;text-align:center">This site uses small amounts of JavaScript for search, editor, and video gadgets. Content still loads without them.</p>
+  </noscript>
+</body>
+</html>
