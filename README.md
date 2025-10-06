@@ -1223,3 +1223,347 @@ A sharp intro that trims the noise and amplifies the signal.
   </noscript>
 </body>
 </html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Signal Executor — Safe Code Runner</title>
+<style>
+  :root{--bg:#0b0b0c;--panel:#101113;--muted:#b8b8b8;--accent:#c8f91a;--text:#fff;--border:#1c1d20}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+  .wrap{max-width:1100px;margin:20px auto;padding:16px}
+  .row{display:flex;gap:12px;align-items:center}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px}
+  textarea{width:100%;height:220px;background:#0e0f12;border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  select,input{background:#0e0f12;border:1px solid var(--border);color:var(--text);padding:8px;border-radius:8px}
+  button{background:var(--accent);border:none;color:#070708;padding:8px 12px;border-radius:8px;cursor:pointer}
+  .small{font-size:13px;color:var(--muted)}
+  .preview{border:1px solid var(--border);border-radius:8px;overflow:hidden;height:320px}
+  .console{height:150px;overflow:auto;padding:8px;background:#070708;border:1px solid #111;color:#dcdcdc;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Signal Executor</h1>
+    <p class="small">Safe, local code runner for HTML/CSS, JavaScript console experiments, and Markdown previews.</p>
+
+    <div class="card">
+      <div class="row">
+        <label class="small">Mode</label>
+        <select id="mode">
+          <option value="html">HTML / CSS</option>
+          <option value="js">JavaScript (console)</option>
+          <option value="md">Markdown Preview</option>
+        </select>
+        <label class="small">Sandbox Type</label>
+        <select id="sandbox">
+          <option value="iframe">sandboxed iframe</option>
+          <option value="worker">Web Worker (JS only)</option>
+        </select>
+        <button id="run">Run</button>
+        <button id="save">Save Snippet</button>
+        <button id="load">Load Snippet</button>
+        <button id="clear">Clear</button>
+      </div>
+
+      <div style="margin-top:12px">
+        <textarea id="code" placeholder="Write HTML/CSS, JS, or Markdown here."></textarea>
+      </div>
+
+      <div class="controls">
+        <input id="title" placeholder="Snippet title" style="flex:1" />
+        <button id="export">Export</button>
+        <button id="copy">Copy</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="small">Live Preview</h3>
+      <div id="preview" class="preview"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="small">Console Output</h3>
+      <div id="console" class="console"></div>
+    </div>
+  </div>
+
+<script>
+  // Storage
+  const LS_KEY = 'signal:executor:snippets';
+  const snippets = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+
+  // Elements
+  const modeEl = document.getElementById('mode');
+  const sandboxEl = document.getElementById('sandbox');
+  const codeEl = document.getElementById('code');
+  const runBtn = document.getElementById('run');
+  const previewEl = document.getElementById('preview');
+  const consoleEl = document.getElementById('console');
+  const saveBtn = document.getElementById('save');
+  const loadBtn = document.getElementById('load');
+  const exportBtn = document.getElementById('export');
+  const copyBtn = document.getElementById('copy');
+  const clearBtn = document.getElementById('clear');
+  const titleEl = document.getElementById('title');
+
+  // Helpers
+  function writeConsole(msg, type='log') {
+    const line = document.createElement('div');
+    line.textContent = msg;
+    if (type === 'err') line.style.color = '#ff6b6b';
+    consoleEl.appendChild(line);
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+  function clearConsole(){ consoleEl.innerHTML = ''; }
+
+  // Sandbox runner using iframe
+  function runInIframe(html) {
+    // strict sandbox attributes: no forms, no top navigation, no same-origin
+    const srcdoc = `<!doctype html><html><meta charset="utf-8"><body>${html}
+      <script>
+        // capture console
+        const send = msg => parent.postMessage({type:'executor:log', payload:msg}, '*');
+        const wrap = fn => {
+          const orig = console[fn];
+          console[fn] = function(...args){ send({fn:fn,args:args}); orig.apply(console,args); };
+        };
+        ['log','warn','error','info'].forEach(wrap);
+        window.onerror = function(msg,src,line,col,err){ send({fn:'error', args:[msg+' (line:'+line+':'+col+')']}); };
+      <\/script></body></html>`;
+    previewEl.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.className = 'sandbox';
+    iframe.sandbox = 'allow-scripts'; // no same-origin, no forms, no top-navigation
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.srcdoc = srcdoc;
+    previewEl.appendChild(iframe);
+
+    // listen for messages
+    function onMsg(e){
+      if (!e.data || e.data.type !== 'executor:log') return;
+      const d = e.data.payload;
+      if (d && d.fn) {
+        writeConsole('['+d.fn+'] ' + d.args.map(a=>String(a)).join(' '), d.fn === 'error' ? 'err' : 'log');
+      }
+    }
+    window.addEventListener('message', onMsg, {once:false});
+    // cleanup when new run triggers: previous iframe removed by assignation
+  }
+
+  // Web Worker runner for JS
+  function runInWorker(code) {
+    clearConsole();
+    // Basic timeout and error handling
+    const blob = new Blob([`
+      self.console = {
+        log: (...a) => self.postMessage({type:'log',args:a}),
+        warn: (...a) => self.postMessage({type:'warn',args:a}),
+        error: (...a) => self.postMessage({type:'error',args:a}),
+        info: (...a) => self.postMessage({type:'info',args:a})
+      };
+      self.onmessage = () => {
+        try {
+          ${code}
+        } catch(e) {
+          self.postMessage({type:'error', args:[String(e)]});
+        }
+        self.postMessage({type:'done'});
+      };
+    `], {type:'application/javascript'});
+    const worker = new Worker(URL.createObjectURL(blob));
+    const timer = setTimeout(()=>{ worker.terminate(); writeConsole('Execution timeout', 'err'); }, 5000);
+    worker.onmessage = (e) => {
+      const d = e.data;
+      if (d.type === 'log') writeConsole('[log] ' + d.args.join(' '));
+      if (d.type === 'warn') writeConsole('[warn] ' + d.args.join(' '));
+      if (d.type === 'error') writeConsole('[error] ' + d.args.join('err'));
+      if (d.type === 'done') { clearTimeout(timer); worker.terminate(); writeConsole('[done]'); }
+    };
+    worker.postMessage({});
+  }
+
+  // Markdown preview
+  function renderMarkdown(md) {
+    // Minimal markdown -> HTML (safe, very small)
+    let html = md
+      .replace(/^######\s?(.*)$/gm, '<h6>$1</h6>')
+      .replace(/^#####\s?(.*)$/gm, '<h5>$1</h5>')
+      .replace(/^####\s?(.*)$/gm, '<h4>$1</h4>')
+      .replace(/^###\s?(.*)$/gm, '<h3>$1</h3>')
+      .replace(/^##\s?(.*)$/gm, '<h2>$1</h2>')
+      .replace(/^#\s?(.*)$/gm, '<h1>$1</h1>')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/\n{2,}/g,'<br><br>')
+      .replace(/\n/g,'<br>');
+    // basic escaping already handled because we create text nodes below if needed
+    previewEl.innerHTML = html;
+  }
+
+  // Event handlers
+  runBtn.addEventListener('click', ()=> {
+    clearConsole();
+    const mode = modeEl.value;
+    const sb = sandboxEl.value;
+    const code = codeEl.value;
+
+    if (mode === 'html') {
+      // render HTML/CSS into sandboxed iframe
+      runInIframe(code);
+      writeConsole('[render] HTML preview loaded');
+    } else if (mode === 'js') {
+      // JS execution: prefer Web Worker
+      if (sb === 'worker' && typeof Worker !== 'undefined') {
+        runInWorker(code);
+      } else {
+        // fallback: run inside iframe wrapper so console captured and DOM remains isolated
+        const wrapped = `<script>${code}<\/script>`;
+        runInIframe(wrapped);
+        writeConsole('[run] executed in iframe sandbox');
+      }
+    } else if (mode === 'md') {
+      renderMarkdown(code);
+      writeConsole('[md] rendered');
+    }
+  });
+
+  // Save snippet
+  saveBtn.addEventListener('click', ()=> {
+    const title = titleEl.value || ('snippet-' + Date.now());
+    const obj = {title, mode:modeEl.value, sandbox:sandboxEl.value, code:codeEl.value, saved:Date.now()};
+    snippets.push(obj);
+    localStorage.setItem(LS_KEY, JSON.stringify(snippets));
+    writeConsole('[save] saved snippet: ' + title);
+  });
+
+  // Load snippet (simple: load last saved)
+  loadBtn.addEventListener('click', ()=> {
+    const arr = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    if (!arr.length) { writeConsole('[load] no snippets'); return; }
+    const last = arr[arr.length-1];
+    titleEl.value = last.title || '';
+    modeEl.value = last.mode || 'html';
+    sandboxEl.value = last.sandbox || 'iframe';
+    codeEl.value = last.code || '';
+    writeConsole('[load] loaded: ' + last.title);
+  });
+
+  // Export / copy
+  exportBtn.addEventListener('click', ()=> {
+    const blob = new Blob([codeEl.value], {type:'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (titleEl.value || 'snippet') + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    writeConsole('[export] exported');
+  });
+  copyBtn.addEventListener('click', async ()=> {
+    try { await navigator.clipboard.writeText(codeEl.value); writeConsole('[copy] copied to clipboard'); }
+    catch { writeConsole('[copy] clipboard failed', 'err'); }
+  });
+  clearBtn.addEventListener('click', ()=> { codeEl.value=''; previewEl.innerHTML=''; clearConsole(); });
+
+  // Keyboard helpers: Ctrl+Enter to run
+  codeEl.addEventListener('keydown', (e)=>{
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { runBtn.click(); e.preventDefault(); }
+  });
+
+  // Initial sample
+  codeEl.value = "<!-- HTML/CSS sample -->\n<style>body{font-family:system-ui;color:#ddd;padding:12px} h1{color:var(--accent)}</style>\n<h1 style='color:#c8f91a'>Signal Executor</h1>\n<p class='small'>Preview runs in a sandboxed iframe.</p>";
+</script>
+</body>
+</html>
+// signal-shell.js — Unified Electron Shell
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
+const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Signal Shell</title>
+  <style>
+    body { margin:0; font-family:system-ui; background:#0b0b0c; color:#fff; }
+    header { background:#101113; padding:12px; display:flex; gap:8px; align-items:center; }
+    input, textarea { background:#0e0f12; color:#fff; border:1px solid #333; border-radius:8px; padding:8px; }
+    button { background:#c8f91a; color:#0b0b0c; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600; }
+    #results div { margin:8px 0; padding:8px; border:1px solid #333; border-radius:8px; }
+    #editor, #preview { width:100%; height:200px; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <input id="search" placeholder="Search or enter URL" style="flex:1">
+    <button id="go">Go</button>
+    <button id="run">Run JS</button>
+  </header>
+  <main style="padding:16px">
+    <div id="results"></div>
+    <textarea id="editor">// Write JavaScript here</textarea>
+    <pre id="preview"></pre>
+  </main>
+  <script>
+    const index = [
+      { url:"#studio", title:"Editor Studio", desc:"Markdown editor with preview" },
+      { url:"#videos", title:"Video Gadgets", desc:"Playlist, timestamps, clips" }
+    ];
+    const search = document.getElementById('search');
+    const go = document.getElementById('go');
+    const run = document.getElementById('run');
+    const results = document.getElementById('results');
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+
+    go.onclick = () => {
+      const q = search.value.trim().toLowerCase();
+      const matches = index.filter(i => (i.title + i.desc).toLowerCase().includes(q));
+      results.innerHTML = matches.map(m => \`<div><strong>\${m.title}</strong><br>\${m.desc}</div>\`).join('') || '<div>No results</div>';
+    };
+
+    run.onclick = () => {
+      try {
+        const output = eval(editor.value);
+        preview.textContent = String(output);
+      } catch (e) {
+        preview.textContent = 'Error: ' + e.message;
+      }
+    };
+  </script>
+</body>
+</html>
+`;
+
+function createWindow() {
+  const win = new BrowserWindow({
+    width: 1000,
+    height: 700,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+
+  const tempPath = path.join(app.getPath('userData'), 'signal-shell.html');
+  fs.writeFileSync(tempPath, html);
+  win.loadFile(tempPath);
+}
+
+app.whenReady().then(createWindow);
+app.on('window-all-closed', () => app.quit());
+
+// preload.js (inline)
+fs.writeFileSync(path.join(__dirname, 'preload.js'), `
+  const { contextBridge } = require('electron');
+  contextBridge.exposeInMainWorld('signalAPI', {
+    ping: () => 'pong'
+  });
+`);
+npm start
