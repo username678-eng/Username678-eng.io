@@ -1567,3 +1567,170 @@ fs.writeFileSync(path.join(__dirname, 'preload.js'), `
   });
 `);
 npm start
+<!-- Signal Vision: Upload a sketch, get HTML/CSS -->
+<section id="vision" style="padding:24px;background:#0b0b0c;color:#fff;border-top:1px solid #222">
+  <style>
+    #vision-box { max-width: 960px; margin: 0 auto; }
+    #vision-upload { padding:12px; background:#101113; border-radius:12px; border:1px solid #333; }
+    #vision-preview { margin-top:12px; max-width:100%; border-radius:8px; border:1px solid #333; }
+    #vision-response { margin-top:16px; background:#0e0f12; padding:16px; border-radius:12px; border:1px solid #333; white-space:pre-wrap; font-family:ui-monospace,Menlo,Consolas,monospace; }
+    #vision-submit { margin-top:8px; padding:10px 16px; background:#c8f91a; color:#0b0b0c; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+  </style>
+
+  <div id="vision-box">
+    <h2 style="color:#c8f91a">Upload a Sketch or Layout</h2>
+    <input type="file" id="vision-upload" accept="image/*" />
+    <img id="vision-preview" src="" alt="Preview" style="display:none;" />
+    <button id="vision-submit">Interpret Image</button>
+    <div id="vision-response">Generated HTML/CSS will appear here.</div>
+  </div>
+
+  <script>
+    const upload = document.getElementById('vision-upload');
+    const preview = document.getElementById('vision-preview');
+    const submit = document.getElementById('vision-submit');
+    const response = document.getElementById('vision-response');
+
+    let imageData = null;
+
+    upload.addEventListener('change', () => {
+      const file = upload.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        imageData = reader.result;
+        preview.src = imageData;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    submit.addEventListener('click', async () => {
+      if (!imageData) {
+        response.textContent = 'Please upload an image first.';
+        return;
+      }
+      response.textContent = 'Interpreting image…';
+      try {
+        const res = await fetch('https://api.signalai.dev/vision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: imageData })
+        });
+        const data = await res.json();
+        response.textContent = data.code || 'No code returned.';
+      } catch (err) {
+        response.textContent = 'Error: ' + err.message;
+      }
+    });
+  </script>
+</section>
+POST https://api.signalai.dev/vision
+Body: { image: base64 }
+Response: { code: "..." }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Signal Visualizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --panel: #101113;
+      --accent: #c8f91a;
+      --text: #fff;
+      --border: #1c1d20;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    header {
+      padding: 20px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    h1 {
+      color: var(--accent);
+      font-size: 2rem;
+      margin: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card h2 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    .card p {
+      font-size: 14px;
+      color: #ccc;
+    }
+    .preview {
+      margin-top: 12px;
+      background: #0e0f12;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      white-space: pre-wrap;
+      border: 1px solid #222;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Signal Visualizer</h1>
+    <p style="color:#ccc">Modular layout and functionality map for your static site</p>
+  </header>
+
+  <section class="grid">
+    <div class="card">
+      <h2>🔍 Search Bar</h2>
+      <p>Global search across pages, videos, drafts, and tags.</p>
+      <div class="preview">input[type="search"] + JS filter logic</div>
+    </div>
+
+    <div class="card">
+      <h2>📝 Editor Dock</h2>
+      <p>Markdown editor with live preview, export, and save/load.</p>
+      <div class="preview">textarea + preview pane + localStorage</div>
+    </div>
+
+    <div class="card">
+      <h2>📺 Video Gadgets</h2>
+      <p>Playlist, timestamps, clip generator, privacy-enhanced embeds.</p>
+      <div class="preview">iframe + timestamp parser + share loop</div>
+    </div>
+
+    <div class="card">
+      <h2>💻 Code Executor</h2>
+      <p>Safe sandbox for HTML/CSS/JS with console output.</p>
+      <div class="preview">iframe sandbox + Web Worker + console capture</div>
+    </div>
+
+    <div class="card">
+      <h2>📸 Vision Interpreter</h2>
+      <p>Upload sketches or screenshots → get HTML/CSS layout.</p>
+      <div class="preview">file input + base64 + AI endpoint</div>
+    </div>
+
+    <div class="card">
+      <h2>🔁 Share Loop</h2>
+      <p>Copy site link, clip URLs, exportable editor content.</p>
+      <div class="preview">navigator.clipboard + export button</div>
+    </div>
+  </section>
+</body>
+</html>
