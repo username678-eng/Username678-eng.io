@@ -22,6 +22,8 @@ body {
   margin: 40px;
 }
 
+
+ 
 h1 {
   color: #3366cc;
 }
@@ -34,6 +36,7 @@ h1 {
   <meta name="description" content="A frictionless intelligence node engineered for viral speed, clarity, and distributed cognition.">
   <meta name="theme-color" content="#0b0b0c">
 
+
   <!-- Open Graph -->
   <meta property="og:title" content="No Fluff. No Filler. Just Signal.">
   <meta property="og:description" content="A distributed cognition system that trims noise and amplifies signal across the web.">
@@ -41,11 +44,13 @@ h1 {
   <meta property="og:url" content="https://username678-eng.github.io/">
   <meta property="og:image" content="https://username678-eng.github.io/preview.png">
 
+
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="No Fluff. No Filler. Just Signal.">
   <meta name="twitter:description" content="Frictionless intelligence. Minimal code. Maximum clarity.">
   <meta name="twitter:image" content="https://username678-eng.github.io/preview.png">
+
 
   <style>
     :root {
@@ -82,6 +87,8 @@ h1 {
     .card { background:#111215; border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:var(--shadow); }
     .card h3 { margin:0 0 8px; color:var(--accent); }
 
+
+  
     footer { margin:32px 0 8px; text-align:center; color:var(--muted); font-size:12px; }
   </style>
 </head>
@@ -99,6 +106,7 @@ h1 {
       </nav>
     </header>
 
+
     <!-- Hero -->
     <section class="hero">
       <h2 class="hero-title">Trim the noise. Amplify the signal.</h2>
@@ -108,6 +116,7 @@ h1 {
         <a class="btn" href="#about">Learn more</a>
       </div>
     </section>
+
 
     <!-- Features -->
     <section id="features">
@@ -122,11 +131,13 @@ h1 {
       </div>
     </section>
 
+
     <!-- About -->
     <section id="about">
       <h2 class="section-title">About the node</h2>
       <p>This site is the public‑facing shell of a distributed cognition system. It trims noise and amplifies signal, proving that elegance, execution, and clarity outperform credentials, complexity, and convention.</p>
     </section>
+
 
     <!-- Install -->
     <section id="install">
@@ -139,11 +150,13 @@ h1 {
       </div>
     </section>
 
+
     <!-- Contact -->
     <section id="contact">
       <h2 class="section-title">Contact</h2>
       <p>For collaboration or questions, open an issue on the repository or reach out via your preferred channel.</p>
     </section>
+
 
     <!-- Footer -->
     <footer>
@@ -151,8 +164,10 @@ h1 {
     </footer>
   </div>
 
+
   <script>
     // Dynamic year
+    
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Smooth scroll
@@ -188,6 +203,7 @@ h1 {
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
     a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+    
     header{padding:20px;background:#0f1012;position:sticky;top:0;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,0.4)}
     nav{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
     nav .logo{font-weight:800;font-size:1.2rem;letter-spacing:.5px}
@@ -203,6 +219,7 @@ h1 {
     .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:18px}
     .tiny{font-size:13px;color:var(--muted)}
     input[type="text"]{flex:1;background:#0e0f12;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px}
+    
     .btn{appearance:none;border:1px solid var(--border);background:#141416;color:var(--text);padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
     .btn:hover{background:#17181b}
     footer{margin-top:40px;padding:20px;text-align:center;color:var(--muted);font-size:13px}
@@ -226,6 +243,7 @@ h1 {
     <p>Minimal surface • Maximal clarity • Editorial hub with viral loops</p>
   </section>
 
+
   <main>
     <section id="features">
       <h2 class="section-title">Mini Features</h2>
@@ -241,6 +259,7 @@ h1 {
           <ul id="mini-results" style="margin-top:10px;padding-left:18px;"></ul>
           <p id="mini-status" class="tiny">Ready.</p>
         </article>
+
 
         <!-- Trending -->
         <article class="card">
@@ -292,6 +311,7 @@ h1 {
     </section>
   </main>
 
+
   <footer>
     © <span id="year"></span> username678‑eng • No Fluff. No Filler. Just Signal.
   </footer>
@@ -339,10 +359,12 @@ Copy-paste into your HTML. Customize the DATA block below.
     @media(min-width:700px){.sig-cols{grid-template-columns:1fr 1fr}}
   </style>
 
+
   <div class="sig-wrap">
     <!-- Header -->
     <h2 style="margin:0 0 8px;font-weight:800">No Fluff. No Filler. Just Signal.</h2>
     <p class="sig-tiny">Mini search engine feature + editorial video gadgets. Fully client‑side. Privacy‑conscious. Easy to customize.</p>
+
 
     <div class="sig-grid">
       <!-- Left column: Search + Featured video -->
@@ -411,6 +433,7 @@ Copy-paste into your HTML. Customize the DATA block below.
       </article>
     </div>
   </div>
+
 
   <script>
     // =========================
@@ -512,6 +535,7 @@ Copy-paste into your HTML. Customize the DATA block below.
         status.innerText = `Found ${items.length} result(s).`;
       };
 
+      
       const run = () => render(search(qEl.value));
       btn.addEventListener("click", run);
       qEl.addEventListener("input", run);
@@ -586,6 +610,7 @@ Copy-paste into your HTML. Customize the DATA block below.
         notes.innerText = v?.notes || "Add editorial notes in DATA.videos[].notes to brief your viewers.";
       };
 
+      
       const setActive = id => {
         active = id;
         featured.src = ytNoCookie(id);
@@ -644,6 +669,7 @@ Copy-paste into your HTML. Customize the DATA block below.
     })();
   </script>
 
+
   <!-- Optional: Tighten CSP (tweak if you use other embeds) -->
   <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-src https://www.youtube-nocookie.com;"> -->
 
@@ -695,18 +721,23 @@ Copy-paste into your HTML. Customize the DATA block below.
     @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
     .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:18px}
     .muted{color:var(--muted);font-size:13px}
+    
     .input{width:100%;background:#0e0f12;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px}
+    
     .row{display:flex;gap:8px;align-items:center}
     .list{list-style:none;margin:10px 0 0;padding:0}
     .list li{padding:10px;border:1px solid var(--border);border-radius:12px;background:#0f1012;margin-bottom:8px}
     /* Panels */
     .iframe-box{position:relative;padding-top:56.25%;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0f1012}
+    
     .iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    
     .note{background:#0f1012;border:1px dashed var(--border);border-radius:10px;padding:10px;color:var(--muted);font-size:13px}
     /* Editor Studio layout */
     .studio-grid{display:grid;gap:16px}
     @media(min-width:900px){.studio-grid{grid-template-columns:1fr 1fr}}
     textarea{width:100%;min-height:220px;background:#0e0f12;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px;font-family:ui-monospace,Menlo,Consolas,monospace}
+    
     .preview{background:#0f1012;border:1px solid var(--border);border-radius:10px;padding:16px;min-height:220px}
     /* Reduced motion */
     @media (prefers-reduced-motion: no-preference){
@@ -732,10 +763,12 @@ Copy-paste into your HTML. Customize the DATA block below.
     </div>
   </header>
 
+
   <section class="hero">
     <h1>No Fluff. No Filler. Just Signal.</h1>
     <p>Minimal surface • Maximal clarity • Editorial hub with pro tools</p>
   </section>
+
 
   <main>
     <!-- Features -->
@@ -761,6 +794,7 @@ Copy-paste into your HTML. Customize the DATA block below.
           <p id="stats" class="muted">Ready. Enter to open top result • ↑/↓ navigate</p>
         </article>
 
+
         <!-- Trending -->
         <article class="card" aria-labelledby="trend-title">
           <h3 id="trend-title">Trending snippets</h3>
@@ -772,6 +806,7 @@ Copy-paste into your HTML. Customize the DATA block below.
             <button class="btn" id="trend-pause" aria-label="Pause autoplay">Pause</button>
           </div>
         </article>
+
 
         <!-- Signal of the Day -->
         <article class="card" aria-labelledby="sotd-title">
@@ -793,6 +828,7 @@ Copy-paste into your HTML. Customize the DATA block below.
       </div>
     </section>
 
+
     <!-- Editor Studio -->
     <section id="studio" aria-labelledby="title-studio">
       <h2 id="title-studio" class="section-title">Editor studio</h2>
@@ -802,6 +838,7 @@ Copy-paste into your HTML. Customize the DATA block below.
           <p class="muted">Write in Markdown or plain text. Live preview updates as you type.</p>
           <textarea id="md" placeholder="# Headline
 A sharp intro that trims the noise and amplifies the signal.
+
 
 **Bold points** and *emphasis*.
 - Bullet lists
@@ -839,6 +876,7 @@ A sharp intro that trims the noise and amplifies the signal.
       </div>
     </section>
 
+
     <!-- Videos -->
     <section id="videos" aria-labelledby="title-videos">
       <h2 id="title-videos" class="section-title">Editorial video gadgets</h2>
@@ -871,6 +909,7 @@ A sharp intro that trims the noise and amplifies the signal.
       </div>
     </section>
 
+
     <!-- About -->
     <section id="about" aria-labelledby="title-about">
       <h2 id="title-about" class="section-title">About</h2>
@@ -878,9 +917,11 @@ A sharp intro that trims the noise and amplifies the signal.
     </section>
   </main>
 
+
   <footer role="contentinfo" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
     © <span id="year"></span> username678‑eng • No Fluff. No Filler. Just Signal.
   </footer>
+
 
   <script>
     // ===============================
@@ -915,6 +956,7 @@ A sharp intro that trims the noise and amplifies the signal.
       ]
     };
 
+    
     // ===============================
     // Utilities
     // ===============================
@@ -926,6 +968,7 @@ A sharp intro that trims the noise and amplifies the signal.
       set:(k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
     };
 
+    
     // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -958,6 +1001,7 @@ A sharp intro that trims the noise and amplifies the signal.
       });
     })();
 
+    
     // Copy site link
     (function(){
       const btn = document.getElementById("copyLink");
@@ -967,6 +1011,7 @@ A sharp intro that trims the noise and amplifies the signal.
       });
     })();
 
+    
     // Pro Search
     (function(){
       const qEl = document.getElementById("q");
@@ -978,6 +1023,7 @@ A sharp intro that trims the noise and amplifies the signal.
       let tagFocus = null;
       let activeIndex = 0;
 
+      
       function score(doc, terms){
         const title = (doc.title||"").toLowerCase(), desc = (doc.description||"").toLowerCase(), tags = (doc.tags||[]).map(t=>String(t).toLowerCase());
         let s = 0, hits=0;
@@ -1007,6 +1053,7 @@ A sharp intro that trims the noise and amplifies the signal.
           .slice(0,8);
       }
 
+      
       function render(items){
         list.innerHTML = "";
         items.forEach((r,i)=>{
@@ -1038,12 +1085,14 @@ A sharp intro that trims the noise and amplifies the signal.
         else if (e.key === "Enter"){ const target = items[activeIndex]?.doc?.url; if (target) window.location.hash = target; }
       });
 
+      
       tagBtns.forEach(b=> b.addEventListener("click",()=>{ tagFocus = b.getAttribute("data-tag"); run(); }));
       clearTag.addEventListener("click",()=>{ tagFocus=null; run(); });
 
       run();
     })();
 
+    
     // Trending
     (function(){
       const items = [
@@ -1068,6 +1117,7 @@ A sharp intro that trims the noise and amplifies the signal.
       show(0); start(); setTimeout(stop,120000);
     })();
 
+    
     // SOTD
     (function(){
       const yt = document.getElementById("yt");
@@ -1076,6 +1126,7 @@ A sharp intro that trims the noise and amplifies the signal.
       note.textContent = DATA.featuredVideo.title;
     })();
 
+    
     // Videos
     (function(){
       const list = document.getElementById("vlist");
@@ -1083,6 +1134,7 @@ A sharp intro that trims the noise and amplifies the signal.
       const yt = document.getElementById("yt");
       let active = DATA.videos[0]?.id || null;
 
+      
       function renderPlaylist(){
         list.innerHTML = "";
         DATA.videos.forEach(v=>{
@@ -1133,6 +1185,7 @@ A sharp intro that trims the noise and amplifies the signal.
       setActive(active);
     })();
 
+    
     // Editor Studio: Markdown, style presets, export, drafts
     (function(){
       const mdEl = document.getElementById("md");
@@ -1745,3 +1798,31 @@ Response: { code: "..." }
 git add index.html
 git commit -m "Add AI assistant, vision interpreter, and visualizer"
 git push origin main
+
+<details>
+  <summary>🧠 AI Assistant</summary>
+  <section id="signal-ai">...your assistant code...</section>
+</details>
+
+<details>
+  <summary>📸 Vision Interpreter</summary>
+  <section id="vision">...your image-to-code module...</section>
+</details>
+
+<details>
+  <summary>🧩 Signal Visualizer</summary>
+  <section id="visualizer">...your layout map...</section>
+</details>
+
+<script src="your-script.js" defer></script>
+
+#signal-ai input { ... }
+#vision img { ... }
+#visualizer .card { ... }
+
+index.html          ← homepage + AI assistant
+tools.html          ← executor, interpreter, editor dock
+visualizer.html     ← layout/functionality map
+
+<a href="tools.html">Open Tools</a>
+<a href="visualizer.html">Explore Layout</a>
