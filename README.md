@@ -1734,3 +1734,14 @@ Response: { code: "..." }
   </section>
 </body>
 </html>
+<!-- AI Assistant -->
+<section id="signal-ai">...</section>
+
+<!-- Vision Interpreter -->
+<section id="vision">...</section>
+
+<!-- Signal Visualizer -->
+<section id="visualizer">...</section>
+git add index.html
+git commit -m "Add AI assistant, vision interpreter, and visualizer"
+git push origin main
