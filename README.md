@@ -1826,3 +1826,107 @@ visualizer.html     ← layout/functionality map
 
 <a href="tools.html">Open Tools</a>
 <a href="visualizer.html">Explore Layout</a>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Signal Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="No fluff. No filler. Just signal." />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0b0b0c;
+      color: #fff;
+    }
+    header {
+      padding: 20px;
+      background: #101113;
+      border-bottom: 1px solid #222;
+    }
+    h1 {
+      color: #c8f91a;
+      font-size: 2rem;
+      margin: 0;
+    }
+    p {
+      color: #ccc;
+      margin-top: 8px;
+    }
+    details {
+      background: #101113;
+      border: 1px solid #222;
+      border-radius: 12px;
+      margin: 20px;
+      padding: 16px;
+    }
+    summary {
+      font-weight: bold;
+      color: #c8f91a;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    section {
+      margin-top: 12px;
+    }
+    a {
+      color: #c8f91a;
+      text-decoration: none;
+      margin-left: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Signal Studio</h1>
+    <p>No fluff. No filler. Just signal.</p>
+    <nav>
+      <a href="tools.html">🧠 Tools</a>
+      <a href="visualizer.html">🧩 Visualizer</a>
+    </nav>
+  </header>
+
+  <!-- 🧠 AI Assistant -->
+  <details>
+    <summary>🧠 AI Assistant</summary>
+    <section id="signal-ai">
+      <!-- Paste your assistant module here -->
+    </section>
+  </details>
+
+  <!-- 📸 Vision Interpreter -->
+  <details>
+    <summary>📸 Vision Interpreter</summary>
+    <section id="vision">
+      <!-- Paste your image-to-code module here -->
+    </section>
+  </details>
+
+  <!-- 🧩 Signal Visualizer -->
+  <details>
+    <summary>🧩 Signal Visualizer</summary>
+    <section id="visualizer">
+      <!-- Paste your layout map here -->
+    </section>
+  </details>
+
+  <!-- 💻 Code Executor -->
+  <details>
+    <summary>💻 Code Executor</summary>
+    <section id="executor">
+      <!-- Paste your sandbox/editor dock here -->
+    </section>
+  </details>
+
+  <!-- 🔁 Share Loop -->
+  <details>
+    <summary>🔁 Share Loop</summary>
+    <section id="share">
+      <!-- Paste your export/share module here -->
+    </section>
+  </details>
+</body>
+</html>
