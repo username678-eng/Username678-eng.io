@@ -1930,3 +1930,10 @@ visualizer.html     ← layout/functionality map
   </details>
 </body>
 </html>
+
+.nojekyll
+
+touch .nojekyll
+git add .nojekyll
+git commit -m "Disable Jekyll for GitHub Pages"
+git push
